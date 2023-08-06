@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="../static/javascript/jquery-ui/css/overcast/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+<link href="../static/css/global.css" rel="stylesheet">
+<script src="../static/javascript/jquery-ui/js/jquery-1.10.2.js"></script>
+<script src="../static/javascript/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
+
+</head>
+<body>
+<img src="../static/images/atom.png" alt="Atom Logo" width="200" height="200" id="logoimage">
+<h1> "Atom - The Super Tiny, 100% Python Search Engine" </h1>
+
+<form action="/" id="searchForm">
+<input type="text" name="query" placeholder="Search..." size="40">
+<input type="submit" value="Search"><br>
+<input type="radio" id="binaryRadio" name="searchType" checked="checked" value="vector">Vector
+<input type="radio" id="vectorRadio" name="searchType" value="bool">Boolean<br>
+</form>
+
+<script type="text/javascript">
+    var frm = $('#searchForm');
+    $("#searchForm").submit(function(ev) {
+
+        $.ajax({
+           type: "POST",
+           url: frm.attr('action'),
+           data: frm.serialize(),
+           success: function(data)
+           {
+              $( "#result").hide();
+              $( "#result" ).empty().append( data );
+              $( "#result").fadeIn(1000);
+              $( "#searchForm" )[0].reset();
+           }
+         });
+
+        ev.preventDefault(); // avoid to execute the actual submit of the form.
+    });
+</script>
+
+<!-- the result of the search will be rendered inside this div -->
+<div id="result"></div>
+
+
+</body>
+</html>
